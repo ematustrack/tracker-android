@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="test2.ItemDetailPage" Title="{Binding Title}">
+	<ScrollView>
+		<StackLayout Spacing="20" Padding="15">
+			<StackLayout Orientation="Horizontal">
+				<Button x:Name="delete" Text="Borrar" HorizontalOptions="FillAndExpand" Clicked="delete_Clicked"></Button>
+				<Button x:Name="send" Text="Enviar" HorizontalOptions="FillAndExpand" Clicked="send_Clicked"></Button>
+			</StackLayout>
+			<!--
+			<Label Text="{Binding Item.Sent}" FontSize="Medium" />
+			<Label Text="{Binding Item}" FontSize="Small" />-->
+
+			<StackLayout Padding="0,0,0,20">
+				<Label x:Name="LabelST" Text="ST" FontSize="Small" />
+				<Picker x:Name="ST" SelectedIndexChanged="Handle_SelectedIndexChangedAsync"></Picker>
+			</StackLayout>
+			<StackLayout Padding="0,0,0,20">
+				<Label x:Name="LabelFolio" Text="Folio" FontSize="Small" />
+				<Picker x:Name="Folio" SelectedIndexChanged="Handle_SelectedIndexChangedFolioAsync"></Picker>
+			</StackLayout>
+			<StackLayout Padding="0,0,0,20">
+				<Label Text="Nota" />
+				<Editor x:Name="notes" Text="{Binding Item.Note}">
+				</Editor>
+			</StackLayout>
+
+
+			<Image Source="{Binding Item.FileName, Converter={StaticResource ImageConverter}}" Aspect="AspectFit" />
+		</StackLayout>
+	</ScrollView>
+</ContentPage>
