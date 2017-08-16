@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace test2
 {
@@ -15,7 +16,7 @@ namespace test2
 			client = new HttpClient();
 			client.MaxResponseContentBufferSize = 256000;
             client.Timeout = TimeSpan.FromMinutes(3);
-			url = @"http://54.175.253.151";
+            url = @"http://54.175.253.151";//@"http://54.175.253.151";
 		}
 
 		public Task<bool> AddItemAsync(ST item)
@@ -36,19 +37,29 @@ namespace test2
 
 		public async Task<IEnumerable<ST>> GetSTItemsAsync(bool forceRefresh = false)
 		{
-			var uri = new Uri(string.Format(url, string.Empty));
-			
-            //System.Diagnostics.Debugger.Break();
-            var response = await client.GetAsync(uri+"server/getSTFolios/");
+			string mPhoneNumber = "";
 
-            if (response.IsSuccessStatusCode)
-			{
-				var content = await response.Content.ReadAsStringAsync();
-                var Item = JsonConvert.DeserializeObject<List<ST>>(content);
-                return Item;
+			var ctx = Forms.Context;
+			Android.Telephony.TelephonyManager tMgr = (Android.Telephony.TelephonyManager)ctx.GetSystemService(Android.Content.Context.TelephonyService);
+			mPhoneNumber = tMgr.Line1Number;
 
-			}
-			return new List<ST>();
+			using (var client = new HttpClient())
+            {
+                var uri = new Uri(string.Format(url, string.Empty));
+
+                //System.Diagnostics.Debugger.Break();
+                client.DefaultRequestHeaders.Add("Token-Number", mPhoneNumber);
+                var response = await client.GetAsync(uri + "server/getSTFolios/");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var Item = JsonConvert.DeserializeObject<List<ST>>(content);
+                    return Item;
+
+                }
+                return new List<ST>();
+            }
 		}
 
 		public Task<bool> UpdateItemAsync(ST item)

@@ -86,11 +86,18 @@ namespace test2
             if (item == null || !CrossConnectivity.Current.IsConnected)
                 return false;
 
+            string mPhoneNumber = "";
+
+            var ctx = Forms.Context;
+			Android.Telephony.TelephonyManager tMgr = (Android.Telephony.TelephonyManager)ctx.GetSystemService(Android.Content.Context.TelephonyService);
+            mPhoneNumber = tMgr.Line1Number;
+
             HttpClientHandler handler = new HttpClientHandler();
 
 			using(var client = new HttpClient(handler, true)){
 
 				client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Add("Token-Number", mPhoneNumber); //replace with mPhoneNumber
 				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 				//var uri = new Uri(string.Format(App.BackendUrl, string.Empty));
                 var uri = new Uri(string.Format(App.BackendUrl+"/server/insert_data/"));

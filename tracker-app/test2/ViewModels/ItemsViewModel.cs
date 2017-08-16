@@ -111,7 +111,7 @@ namespace test2
             {
                 FileName = base64,
                 Sent = false,
-                CreatedOn = DateTime.UtcNow.ToString("s") + "Z",
+                CreatedOn = DateTime.UtcNow.ToLocalTime().ToString("s") + "Z",
                 Latitude = position.Latitude,
                 Longitude = position.Longitude,
                 Color = "#FFFFFF"

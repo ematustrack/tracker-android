@@ -8,7 +8,7 @@ namespace test2
 	public partial class App : Application
 	{
 		public static bool UseMockDataStore = true;
-		public static string BackendUrl = "https://5582bb46.ngrok.io";
+		public static string BackendUrl = "http://54.175.253.151";
         public static PictureService picService;
 
 		public static IDictionary<string, string> LoginParameters => null;
